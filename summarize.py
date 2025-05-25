@@ -13,10 +13,9 @@ if not GEMINI_API_KEY:
     DEMO_MODE = True
     # Set a dummy API key for demo purposes
     GEMINI_API_KEY = "dummy_key_for_demo"
+
 client = genai.Client(api_key=GEMINI_API_KEY)
-
 ACTIVE_PROMPTS = ['combined', 'short']
-
 
 def generate_summaries(uuid, bio, actives=ACTIVE_PROMPTS):
     if DEMO_MODE:
