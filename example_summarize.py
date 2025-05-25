@@ -38,11 +38,12 @@ test_bio = """* Childhood Memories and Early Interests
 * 3. Experience of being interviewed for National Life Stories
 """
 
-# summarize.DEMO_MODE = True
-resp = summarize.generate_summaries(1, 'snow white')
-# pretty print the response.text json
-print(json.dumps(resp, indent=2))
+if __name__ == "__main__":
+    # summarize.DEMO_MODE = True
+    resp = summarize.generate_summaries(1, test_bio)
+    # pretty print the response.text json
+    print(json.dumps(resp, indent=2))
 
-# save the response to a file
-# with open('response.json', 'w') as f:
-#     json.dump(resp, f, indent=2)
+    # save the response to a file
+    # with open('response.json', 'w') as f:
+    #     json.dump(resp, f, indent=2)

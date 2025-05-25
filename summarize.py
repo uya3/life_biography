@@ -35,7 +35,8 @@ def generate_summaries(uuid, bio, actives=ACTIVE_PROMPTS):
 def generate_summary(uuid, bio, prompt):
     config=types.GenerateContentConfig(
         max_output_tokens=5000,
-        temperature=0.1
+        temperature=0.1,
+        response_mime_type="application/json",
     )
     contents = f'{prompt}: \n {bio}'
     response = client.models.generate_content(
