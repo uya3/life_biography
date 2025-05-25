@@ -18,6 +18,13 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 ACTIVE_PROMPTS = ['combined', 'short', 'outline']
 
 def generate_summaries(uuid, bio, actives=ACTIVE_PROMPTS):
+    """
+    Generates summaries based on the provided bio and active prompts.
+    :param uuid: Unique identifier for the user.
+    :param bio: The biography text to summarize.
+    :param actives: List of active prompts to use for summarization.
+    :return: Dictionary of JSON responses for each active prompt.
+    """
     if DEMO_MODE:
         print("Running in demo mode. No API calls will be made.")
         # read response.json file content and return it
