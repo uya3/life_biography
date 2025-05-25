@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor McIntyre: Life Story Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #f9fafb; /* Tailwind gray-50 */
+            color: #1f2937; /* Tailwind gray-800 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem; /* Tailwind rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Tailwind shadow-lg */
+            width: 100%;
+            max-width: 1200px;
+            overflow-x: auto; /* Allow horizontal scrolling for the SVG if it's too wide */
+        }
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 2px;
+            cursor: pointer;
+        }
+        .node circle.collapsed {
+            fill: lightsteelblue;
+        }
+        .node text {
+            font-size: 12px;
+            fill: #374151; /* Tailwind gray-700 */
+            paint-order: stroke;
+            stroke: #fff; /* White outline for better readability */
+            stroke-width: 3px;
+            stroke-linecap: butt;
+            stroke-linejoin: miter;
+        }
+        .node text.leaf-node-text {
+            stroke-width: 0px; /* No outline for leaf node text if preferred */
+        }
+        .link {
+            fill: none;
+            stroke: #9ca3af; /* Tailwind gray-400 */
+            stroke-opacity: 0.8;
+            stroke-width: 1.5px;
+        }
+        .controls {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .controls button {
+            background-color: #3b82f6; /* Tailwind blue-500 */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* Tailwind rounded-md */
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .controls button:hover {
+            background-color: #2563eb; /* Tailwind blue-600 */
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 8px;
+            font: 12px sans-serif;
+            background: #fefce8; /* Tailwind yellow-50 */
+            border: 1px solid #facc15; /* Tailwind yellow-400 */
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+        .search-container {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        .search-container input {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db; /* Tailwind gray-300 */
+            border-radius: 0.375rem;
+            width: 300px;
+        }
+        .node.highlighted > circle { /* Applied to the g.node element */
+            stroke: #ef4444 !important; /* Tailwind red-500 */
+            stroke-width: 3px !important;
+            fill: #fecaca !important; /* Tailwind red-200 */
+        }
+         /* Style for circle within a highlighted node */
+        .node.highlighted circle {
+            stroke: #ef4444; /* Tailwind red-500 */
+            stroke-width: 3px;
+            fill: #fecaca; /* Tailwind red-200 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-700">Professor Michael McIntyre: A Life in Science and Music</h1>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search story points..." class="rounded-md shadow-sm">
+        </div>
+
+        <div class="controls">
+            <button id="expandAll">Expand All</button>
+            <button id="collapseAll">Collapse All</button>
+            <button id="resetZoom">Reset Zoom</button>
+        </div>
+        <svg width="1000" height="2000"></svg> 
+        <div class="tooltip"></div>
+    </div>
+
+    <script>
+        const rawOutline = `
+Professor Michael McIntyre: A Life in Science and Music
+I. Early Life and Formative Influences (1941 - c. 1950s)
+* A. Family Background and Ancestry
+* 1. Birth in Sydney (1941)
+* 2. Father: Archibald Keverall McIntyre (Neurophysiologist, WW2 aviation physiology, myopia)
+* 3. Paternal Heritage (Tasmanian roots, grandfather gynaecologist, Sir Edgeworth David - geologist, Funafuti expedition)
+* 4. Mother: Anne Williams (Sydney family, artistic talents, impact of 1929 crash)
+* 5. Great Aunt Molly (Mary Edgeworth David)
+* B. Childhood Memories and Early Interests
+* 1. Wartime Sydney (Cremorne, Manly Beach, rock pools, ferries, oil slicks)
+* 2. Tasmanian Interludes (10 Carnarvon Street, making mud, dog Sidi)
+* 3. Early Scientific Curiosity (Steam engines, father's light box, fascination with how things work)
+* 4. Development of Myopia
+* 5. Early Encounters with Music (Beethoven symphonies on 78rpm, father's oscilloscope, Miss Budden's school piano)
+* 6. Learning to Read (Angus and the Cat, Pretzel, "eureka moment")
+* 7. Fascination with Language ("Between the bars" incident)
+* 8. Father's Influence (Model aeroplanes, explaining the stars)
+* C. Early Schooling
+* 1. Kindergarten in Sydney (Miss Budden's)
+II. Education and Journey into Science (c. 1946 - 1963)
+* A. American Sojourn (c. 1946 - 1948)
+* 1. Journey and Arrival (Douglas DC4, Fiji, Hawaii, San Francisco)
+* 2. Life in Yonkers (Mrs Cipollini's house, Aldo's Mickey Mouse films, severe winter, ice storm)
+* 3. Schooling at PS16 (Arithmetic, "ball" classes, Oath of Allegiance)
+* 4. Family life and financial constraints
+* 5. Uptown Manhattan (Summer 1948, sister's broken arm)
+* B. Brief Return to Cambridge (c. 1948 - 1949)
+* 1. Life in Latham Road (Attic, Ralph the gardener, bronchitis)
+* 2. Newnham Croft School (Lbs/s/d, bicycle journey, miniature Sydney Harbour Bridge)
+* 3. First Concert Experiences (King's Chapel choir, Guildhall orchestra, audio recorder fascination)
+* 4. Introduction to the Recorder and early composition
+* C. New Zealand Years (1949 - 1963)
+* 1. Move to Dunedin (Father's post at University of Otago with Sir John Eccles)
+* 2. Primary and Intermediate Schooling
+* a. George Street Normal School
+* b. Macandrew Intermediate School (Miss Foster, grammar, "Teacher's Pet," early bullying, choir)
+* 3. High School at King's High School
+* a. Social development (fives, Alley game)
+* b. Scientific friendships (radio-controlled model aeroplane project)
+* c. Musical involvement (Gilbert & Sullivan - HMS Pinafore, school pianist)
+* d. Influence of Maths Teacher Gabby Haase (Additional Mathematics)
+* e. Quaker meetings and early spiritual exploration
+* 4. University of Otago (1950s - 1963)
+* a. Maths Degree (Initially pure maths focus, also physics and chemistry)
+* b. Knox College (Residential life, friendships - Max Restieaux, John Anderson)
+* c. Deepening musical involvement (Violin, piano, New Zealand National Youth Orchestra leader)
+* d. Holidays in Southern Alps (Diamond Lake, Jenny Manton)
+* e. Meeting future wife, Ruth Hecht, in Melbourne
+III. Doctoral Studies and Early Career (1963 - c. 1970s)
+* A. PhD at Cambridge (1963 - c. 1967/8)
+* 1. Decision and Application (Encouragement by Desmond Sawyer, Trinity College)
+* 2. Supervisor: Francis Bretherton (Nudged by George Batchelor)
+* 3. Research Focus: Geophysical Fluid Dynamics
+* a. Instability of zonal flow (cyclones/anticyclones)
+* b. Nonhydrostatic effects in annulus experiments (EDSAC II computer)
+* c. Learning process (Seminars, importance of simple things, George Batchelor's interventions)
+* 4. Balancing Music and Research (Cambridge Music Club, Pierrot Lunaire, David Atherton, Andrew Davis, Antony Pay, leading to an extra year for PhD)
+* 5. Thesis work on wavy instability (Weak horizontal shear, correcting Pedlosky's work, EDSAC II, proof of convergence)
+* B. Postdoctoral Fellowship at MIT (c. 1967 - 1969)
+* 1. Mentors: Jule Charney and Norman Phillips
+* 2. Research Projects
+* a. Double-diffusive instability
+* b. Equatorial undercurrent
+* 3. St John's College Research Fellowship
+* 4. Family life in Brookline, MA (House swap, campervan trips across the US)
+* 5. Engagement with Woods Hole Oceanographic Institution and rotating seminars
+* C. Return to Cambridge: Assistant Director of Research (1969 onwards)
+* 1. Appointment and early work
+* 2. Continued musical activities (Piano trio with Ruth and cellist)
+IV. Mature Research Career and Key Contributions (c. 1970s - Present)
+* A. Wave-Mean Flow Interaction and GLM Theory
+* 1. Second-order mean effects of waves
+* 2. Mountain lee waves and upstream influence (Brooke Benjamin's work)
+* 3. Development of Generalised Lagrangian-Mean (GLM) theory (with David Andrews)
+* 4. Kelvin's circulation theorem and wave breaking criterion
+* 5. Application to water waves (divergence effect, Michael Longuet-Higgins' surprise)
+* 6. Critical layer theory and gravity wave breaking
+* B. Stratospheric Dynamics and Ozone Science
+* 1. Rossby waves in the stratosphere (Adrian Simmons as first student)
+* 2. Stratospheric sudden warmings (Matsuno's simulations, role of planetary-scale Rossby waves)
+* 3. Potential Vorticity (PV) as a diagnostic tool
+* a. PV inversion and Rossby wave propagation
+* b. Collaboration with Tim Palmer (Met Office) on "blurred view of reality" (PV maps)
+* c. Concept of breaking Rossby waves and anti-frictional effects (negative viscosity)
+* d. Eliassen-Palm cross-sections (with Hoskins and Edmon)
+* 4. Brewer-Dobson Circulation (Gyroscopic pumping, role of breaking Rossby waves)
+* 5. Involvement in Ozone Hole Research
+* a. Interdisciplinary effort (dynamics, chemistry, radiation)
+* b. Airborne expeditions (Arctic flight on DC-8, ER-2 "smoking gun" flights)
+* c. Understanding the polar vortex (isolation, eddy-transport barrier)
+* d. Explaining Joe Farman's observations at Halley Bay
+* C. Musical Acoustics
+* 1. Collaboration with Jim Woodhouse (PhD student)
+* 2. Violin acoustics (bowed string dynamics, wood properties - anisotropy, Carleen Hutchins, Catgut Acoustical Society)
+* 3. Contributions to understanding (Helmholtz, Raman, Cremer, wolf notes, finite bow width, flattening effect)
+* D. Solar Physics
+* 1. Interest spurred by Edward Spiegel and Douglas Gough
+* 2. Helioseismology and the Sun's internal structure
+* 3. Sun's differential rotation vs. solid radiative interior (tachocline)
+* 4. Inevitability of an internal magnetic field (with Gough)
+* 5. Gyroscopic pumping and confinement layers in the Sun (with Toby Wood)
+* E. Jovian Jet Systems
+* 1. Contrast with Earth's meandering jets (Jupiter's straight jets)
+* 2. Questioning the Rhines mechanism's universality
+* 3. Exploring alternative mechanisms (thunderstorms as excitation, with Stephen Thomson)
+* F. Personal Website and Communication of Science
+* 1. Origins in prepublication papers
+* 2. "Lucidity Principles" and bees in the bonnet
+* 3. Animations (e.g., "walking lights") and their meaning
+* 4. Views on copyright and open access
+V. Personal Life, Philosophy, and Reflections
+* A. Music as a Lifelong Passion
+* 1. Performance (Violin, piano, chamber music, David Crighton memorial concert)
+* 2. Theoretical interest in acoustics
+* 3. Connection between music and mathematics (unconscious power of abstraction, organic change)
+* B. Family and Home Life
+* 1. Marriage to Ruth Hecht (Pianist, artist, culinary expert)
+* 2. Three stepchildren (Peter, Jonathan, Miriam) and their interests
+* 3. Work-life balance and evolution of family engagement
+* 4. Home in De Freville Avenue and Windsor Road (studies, home improvements, solar panels)
+* C. Hobbies and Other Interests
+* 1. Gliding (Inspired by Philip Wills' "Flight without Power", Aviator simulator, Cambridge Gliding Club, solo in 1990)
+* 2. Interest in perception psychology (Richard Gregory's "The Intelligent Eye")
+* D. Intellectual Development and Philosophy
+* 1. Lucidity in Science (Importance of clear communication, proofreading Batchelor, Adams-Airy affair, teaching undergraduates)
+* 2. Nature of Scientific Understanding (Feynman's approach, multiple perspectives, role of simple models, thought experiments)
+* 3. "Reverent Agnostic" (Views on religion, Dawkins, Martin Rees)
+* 4. On Climate Change (Palaeoclimate record, CO2 as non-condensing greenhouse gas, Earth system as amplifier, criticism of disinformers, IPCC process)
+* 5. Politics and Society (Trust, journalism, democracy, IPCC involvement – or lack thereof)
+* E. Reflections on Career and Colleagues
+* 1. Royal Society Fellowship (Honour, responsibilities, supporting others)
+* 2. Mentors and collaborators (Batchelor, Bretherton, Charney, Phillips, Gough, Spiegel, Crighton, Hoskins, Palmer etc.)
+* 3. Experience of being interviewed for National Life Stories
+This outline attempts to capture the richness of Professor McIntyr
+`;
+
+        // --- Data Parsing Function ---
+        function parseOutline(text) {
+            const lines = text.trim().split('\n');
+            const rootName = lines.shift().trim(); 
+            const root = { name: rootName, children: [], id: 'root', depth: 0, _children: null, expanded: true, data: {originalName: rootName} };
+            let currentPath = [root]; 
+            let idCounter = 0;
+
+            const patterns = [
+                { regex: /^([IVXLCDM]+)\.\s*(.*)/, depth: 1 },    
+                { regex: /^\*\s*([A-Z])\.\s*(.*)/, depth: 2 },      
+                { regex: /^\*\s*([0-9]+)\.\s*(.*)/, depth: 3 },   
+                { regex: /^\*\s*([a-z])\.\s*(.*)/, depth: 4 }     
+            ];
+
+            lines.forEach(lineContent => {
+                const line = lineContent.trim();
+                if (!line || line.startsWith("This outline attempts")) return;
+
+                let matched = false;
+                for (const p of patterns) {
+                    const match = line.match(p.regex);
+                    if (match) {
+                        const depth = p.depth;
+                        const name = match[2].trim();
+                        const newNode = { name, children: [], id: `node-${++idCounter}`, depth, _children: null, expanded: true, data: {originalName: name} };
+                        
+                        while (currentPath.length > 0 && currentPath[currentPath.length - 1].depth >= depth) {
+                            currentPath.pop();
+                        }
+                        
+                        const parent = currentPath[currentPath.length - 1] || root;
+                        if (!parent.children) parent.children = [];
+                        parent.children.push(newNode);
+                        currentPath.push(newNode); 
+                        matched = true;
+                        break;
+                    }
+                }
+                 if (!matched && line.length > 0) { // Handle lines that don't match patterns (potential details)
+                    if (currentPath.length > 1) {
+                        const lastNode = currentPath[currentPath.length - 1];
+                        // Append as a childless leaf node
+                        const detailNode = { name: line, children: [], id: `node-${++idCounter}`, depth: lastNode.depth + 1, _children: null, expanded: true, data: {originalName: line} };
+                        if (!lastNode.children) lastNode.children = [];
+                        lastNode.children.push(detailNode);
+                    } else {
+                        // console.warn("Unmatched line, no current parent to attach to:", line);
+                    }
+                }
+            });
+            return root;
+        }
+
+        const lifeStoryData = parseOutline(rawOutline);
+
+        // --- D3 Visualization ---
+        const svg = d3.select("svg");
+        const svgElement = document.querySelector('svg');
+        const container = d3.select(".container");
+        
+        // Adjust SVG size based on container width dynamically
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const newWidth = entry.contentRect.width;
+                svg.attr("width", newWidth);
+            }
+        });
+        observer.observe(container.node());
+        
+        const initialWidth = container.node().getBoundingClientRect().width;
+        svg.attr("width", initialWidth);
+
+
+        const g = svg.append("g"); 
+        const tooltip = d3.select(".tooltip");
+
+        let i = 0; 
+        const duration = 750; 
+        let rootNode;
+
+        const treeLayout = d3.tree().nodeSize([40, 250]); 
+
+        const zoom = d3.zoom()
+            .scaleExtent([0.1, 3]) 
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+        svg.call(zoom);
+        
+        const initialTransform = d3.zoomIdentity.translate(initialWidth / 6, 50); 
+        svg.call(zoom.transform, initialTransform);
+
+
+        rootNode = d3.hierarchy(lifeStoryData, d => d.children);
+        rootNode.x0 = 0; 
+        rootNode.y0 = 0;
+
+        function collapseInitial(d) {
+            if (d.children) {
+                if (d.depth > 0) { 
+                    d._children = d.children;
+                    d.children = null;
+                }
+                d._children?.forEach(collapseInitial); 
+                d.children?.forEach(collapseInitial);  
+            }
+        }
+        if (rootNode.children) { // Ensure rootNode.children exists before calling forEach
+            rootNode.children.forEach(collapseInitial); 
+        }
+        update(rootNode);
+
+
+        // --- Update function to render the tree ---
+        function update(source) {
+            // Define the link path generator
+            // It uses node.y for the SVG x-coordinate (depth) and node.x for SVG y-coordinate (breadth)
+            const linkPathGenerator = d3.linkHorizontal()
+                .x(d => d.y) // d.y is depth scaled, used as horizontal svg coordinate
+                .y(d => d.x); // d.x is breadth, used as vertical svg coordinate
+
+            const treeData = treeLayout(rootNode);
+            const nodes = treeData.descendants();
+            const links = treeData.descendants().slice(1); 
+
+            nodes.forEach(d => { 
+                d.y = d.depth * 220; 
+            });
+
+            // --- Nodes ---
+            const node = g.selectAll("g.node")
+                .data(nodes, d => d.id || (d.id = ++i)); 
+
+            const nodeEnter = node.enter().append("g")
+                .attr("class", "node")
+                .classed("highlighted", d => d.highlighted) // Add highlighted class on enter
+                .attr("transform", d => `translate(${source.y0},${source.x0})`)
+                .on("click", click)
+                .on("mouseover", function(event, d) {
+                    tooltip.transition().duration(200).style("opacity", .9);
+                    tooltip.html(d.data.name) 
+                           .style("left", (event.pageX + 15) + "px")
+                           .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                    tooltip.transition().duration(500).style("opacity", 0);
+                });
+
+            nodeEnter.append("circle")
+                .attr("r", 1e-6) 
+                .style("fill", d => d._children ? "lightsteelblue" : "#fff")
+                .classed("collapsed", d => d._children);
+
+
+            nodeEnter.append("text")
+                .attr("dy", ".35em")
+                .attr("x", d => d.children || d._children ? -13 : 13)
+                .attr("text-anchor", d => d.children || d._children ? "end" : "start")
+                .text(d => {
+                    const name = d.data.name; 
+                    return name.length > 35 ? name.substring(0, 32) + "..." : name;
+                })
+                .classed("leaf-node-text", d => !d.children && !d._children);
+
+
+            const nodeUpdate = nodeEnter.merge(node);
+
+            nodeUpdate.transition()
+                .duration(duration)
+                .attr("transform", d => `translate(${d.y},${d.x})`);
+            
+            nodeUpdate.classed("highlighted", d => d.highlighted); // Update highlighted class
+
+            nodeUpdate.select("circle")
+                .attr("r", 8) 
+                .style("fill", d => d._children ? "lightsteelblue" : "#fff")
+                .classed("collapsed", d => d._children)
+                // Highlighting is now handled by the .node.highlighted circle CSS rule
+                // .style("stroke", d => d.highlighted ? "#ef4444" : "steelblue") 
+                // .style("stroke-width", d => d.highlighted ? "3px" : "2px");
+
+
+            nodeUpdate.select("text")
+                .style("fill-opacity", 1);
+
+            const nodeExit = node.exit().transition()
+                .duration(duration)
+                .attr("transform", d => `translate(${source.y},${source.x})`)
+                .remove();
+
+            nodeExit.select("circle").attr("r", 1e-6);
+            nodeExit.select("text").style("fill-opacity", 1e-6);
+
+            // --- Links ---
+            const link = g.selectAll("path.link")
+                .data(links, d => d.id);
+
+            const linkEnter = link.enter().insert("path", "g") 
+                .attr("class", "link")
+                .attr("d", d => {
+                    const o = {y: source.y0, x: source.x0}; // Point for source of link
+                    // For entering links, both source and target of the path are the parent's previous position.
+                    return linkPathGenerator({source: o, target: o});
+                });
+
+            linkEnter.merge(link).transition()
+                .duration(duration)
+                // For updating links, use the parent's new position as source and child's new position as target.
+                .attr("d", d => linkPathGenerator({source: d.parent, target: d}));
+
+            link.exit().transition()
+                .duration(duration)
+                .attr("d", d => {
+                    const o = {y: source.y, x: source.x}; // Point for target of link
+                    // For exiting links, both source and target of the path are the parent's new position.
+                    return linkPathGenerator({source: o, target: o});
+                })
+                .remove();
+
+            nodes.forEach(d => {
+                d.x0 = d.x;
+                d.y0 = d.y;
+            });
+            
+            const bounds = g.node().getBBox();
+            const padding = 50; 
+            const newHeight = bounds.height + Math.abs(bounds.y) + padding*2; 
+            const minHeight = 800; 
+            svg.attr("height", Math.max(newHeight, minHeight));
+        }
+
+        function click(event, d) {
+            if (d.children) { 
+                d._children = d.children;
+                d.children = null;
+            } else { 
+                d.children = d._children;
+                d._children = null;
+            }
+            update(d); 
+        }
+
+        function toggleAllRecursive(d, collapse) {
+            if (collapse) {
+                if (d.children) {
+                    d._children = d.children;
+                    d.children = null;
+                }
+            } else {
+                 if (d._children) {
+                    d.children = d._children;
+                    d._children = null;
+                }
+            }
+            // Recurse for children (if expanding) or _children (if collapsing, to ensure all descendants are processed)
+            const childrenToRecurse = collapse ? d._children : d.children;
+            if (childrenToRecurse) {
+                childrenToRecurse.forEach(child => toggleAllRecursive(child, collapse));
+            }
+        }
+
+        d3.select("#expandAll").on("click", () => {
+            rootNode.descendants().forEach(d => {
+                if (d._children) {
+                    d.children = d._children;
+                    d._children = null;
+                }
+            });
+            update(rootNode);
+        });
+
+        d3.select("#collapseAll").on("click", () => {
+            // We want to collapse all children of the root, but keep the root itself expandable.
+            if (rootNode.children) {
+                rootNode.children.forEach(child => {
+                    toggleAllRecursive(child, true); // Collapse this child and all its descendants
+                });
+            }
+            update(rootNode); // Re-render from the root
+        });
+        
+        d3.select("#resetZoom").on("click", () => {
+            svg.transition().duration(duration).call(zoom.transform, initialTransform);
+        });
+
+        const searchInput = d3.select("#searchInput");
+        let allNodesForSearch = [];
+
+        function collectAllNodes(d, arr) {
+            arr.push(d);
+            if (d.children) d.children.forEach(child => collectAllNodes(child, arr));
+            if (d._children) d._children.forEach(child => collectAllNodes(child, arr)); 
+        }
+        // Initial collection of all nodes
+        allNodesForSearch = []; // Clear before collecting
+        collectAllNodes(rootNode, allNodesForSearch);
+
+
+        searchInput.on("input", function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            allNodesForSearch.forEach(n => n.highlighted = false);
+
+            if (searchTerm.length < 2) { 
+                update(rootNode); 
+                return;
+            }
+            
+            function expandPathToNode(node) {
+                let current = node.parent;
+                while(current) {
+                    if (current._children) { 
+                        current.children = current._children;
+                        current._children = null;
+                    }
+                    current = current.parent;
+                }
+            }
+
+            allNodesForSearch.forEach(n => {
+                if (n.data.originalName.toLowerCase().includes(searchTerm)) {
+                    n.highlighted = true;
+                    expandPathToNode(n); 
+                }
+            });
+            update(rootNode); 
+        });
+    </script>
+</body>
+</html>

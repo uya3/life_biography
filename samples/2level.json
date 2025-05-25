@@ -1,0 +1,253 @@
+{
+  "interviewee_details": {
+    "name": "Professor Michael McIntyre",
+    "dob": "1941-07-28",
+    "pob": "Sydney, Australia",
+    "interview_reference": "C1379/72",
+    "interview_context": "National Life Stories - An Oral History of British Science"
+  },
+  "family_background": {
+    "paternal_side": {
+      "father": {
+        "name": "Archibald Keverall McIntyre",
+        "occupation": "Neurophysiologist, respected scientist",
+        "wwii_service": "Aviation physiology (note: interviewee clarifies early misconceptions about g-suits and UK service during the war in the transcript)",
+        "education": "Medical training, Barker College (Sydney)",
+        "childhood": "Born Edinburgh, moved to Tasmania (Launceston)",
+        "health": "Heavily myopic"
+      },
+      "grandfather": "Gynaecologist, studied in Edinburgh",
+      "great_aunt": "Molly (Mary Edgeworth David)",
+      "great_grandfather": {
+        "name": "Sir Edgeworth David FRS",
+        "occupation": "Geologist, Antarctic explorer",
+        "achievements": "Named South Magnetic Pole (temporarily), Funafuti atoll expedition (testing Darwin's theory)"
+      },
+      "great_grandmother": {
+        "name": "Cara David",
+        "achievements": "Wife of Sir Edgeworth, author, Funafuti expedition"
+      }
+    },
+    "maternal_side": {
+      "mother": {
+        "name": "Anne (née Williams)",
+        "description": "Kind, loving, restrained, artistic (painter, drawer), designed family homes, interested in architecture (Bauhaus).",
+        "family_history": "Lawyers and business people in Sydney. Ancestor James Milson Senior (Milson's Point)."
+      },
+      "maternal_grandfather": "Keith Williams, affected by 1929 crash."
+    },
+    "siblings": {
+      "sister": {
+        "name": "Margaret",
+        "description": "Accomplished sportswoman, ski instructor, Feldenkrais therapist, lives in Hawaii."
+      },
+      "brother": {
+        "name": "Richard",
+        "occupation": "Surgeon",
+        "passion": "Winemaker (Moorooduc, Mornington Peninsula, Australia)"
+      }
+    }
+  },
+  "early_life_and_education": {
+    "early_childhood_memories": [
+      {
+        "location": "Sydney (Cremorne with maternal grandparents, Manly Beach) and Tasmania (Launceston with paternal family) during WWII.",
+        "details": "Fascination with Sydney Harbour steam ferries (triple-expansion engines), learning to dog paddle at Manly, oil from war ships, making smooth mud in Tasmania, pet dog Sidi, light box from father."
+      },
+      {
+        "location": "Sydney (Hunters Hill house, \"Haldane\") post-WWII.",
+        "details": "Listening to Beethoven symphonies (especially 5th) on 78rpm records, observing father's hi-fi equipment (vacuum tubes, oscilloscope), making an acoustic gramophone with father."
+      }
+    ],
+    "primary_schooling": [
+      {
+        "location": "Sydney",
+        "school_name": "Kindergarten run by Miss Budden (sp?)",
+        "memories": "Musical experience with piano, learning to read (*Angus and the Cat*, *Pretzel*)."
+      },
+      {
+        "location": "Yonkers, New York, USA (approx. 1946-1948)",
+        "school_name": "PS16 (Public School 16)",
+        "memories": "Rigid arithmetic, \"ball\" class (bouncing balls to music), American Oath of Allegiance, making model aeroplanes with father from a book (led to flying dreams)."
+      },
+      {
+        "location": "Cambridge, UK (approx. 1948-1949)",
+        "school_name": "Newnham Croft School",
+        "memories": "Learning pounds, shillings, pence; cycling to school; given a recorder and composed tunes; attending concerts (King's Chapel choir, first symphony orchestra at Guildhall)."
+      },
+      {
+        "location": "Dunedin, New Zealand (from 1949)",
+        "school_name": "George Street Normal School (primary)"
+      }
+    ],
+    "intermediate_schooling_nz": {
+      "school_name": "Macandrew Intermediate School, Dunedin",
+      "details": "First and Second Form (ages approx. 11-13). Strict teacher Miss Foster (grammar). Experienced some bullying ('Teacher's Pet'). Sang in choir. Encountered Euclidean geometry (beauty of abstract proof)."
+    },
+    "high_school_nz": {
+      "school_name": "King's High School, Dunedin",
+      "details": "Science teaching was standard. Active in electronics (vacuum-tube circuits). Socially accepted through sport (fives) and music (arranging and playing for Gilbert & Sullivan's *HMS Pinafore*). Influential maths teacher Gabby Haase (Additional Mathematics). Won scholarship to university."
+    },
+    "university_otago_nz": {
+      "degree": "BSc with Honours in Mathematics (4 years)",
+      "college_life": "Lived in Knox College. Cycled to 8am lectures. Studied maths, physics, chemistry in first year, then specialized in maths (more pure than applied due to better lecturing).",
+      "friendships": "Roommate Max Restieaux (law, singer). John Anderson (father's student, married childhood friend Jenny Manton).",
+      "extracurricular": "Intensive violin practice (founder member and leader of NZ National Youth Orchestra for three years)."
+    }
+  },
+  "phd_and_early_career": {
+    "phd_cambridge": {
+      "institution": "University of Cambridge, Trinity College",
+      "supervisor": "Francis Bretherton (nudged by George Batchelor, HOD)",
+      "field": "Geophysical Fluid Dynamics",
+      "research_transition": "Learning to appreciate simple things, orders of magnitude, and that not understanding everything is normal in research.",
+      "thesis_topics": [
+        "Stability of zonal flow on an aquaplanet, including nonhydrostatic effects in annular lab experiments (used EDSAC II computer).",
+        "Wavy instability of a jet-like flow (vertical and horizontal shear), correcting work by Joseph Pedlosky. This involved complex paper mathematics and computing, and led to a JFM 1970 paper and a St John's Research Fellowship."
+      ],
+      "challenges": "Took an extra year due to intense involvement in Cambridge_musical_life.",
+      "personal_life": "Met future wife, Ruth Hecht (pianist), who had 3 children. She provided accommodation during his 4th PhD year. Married the year after PhD completion."
+    },
+    "postdoc_mit": {
+      "period": "Approx. 2 years (likely 1967-1969 based on other dates, but interviewee seems to adjust this later based on PhD finish and Cambridge start)",
+      "location_details": "Brookline, MA. Family joined for second year. Involved house swap and extensive camping trips across USA.",
+      "department_milieu": "Green Building, Meteorology Department. Key figures: Jule Charney, Norman Phillips. Legacy of Rossby. Intellectual freedom. Rotating seminars (MIT, Woods Hole, etc.).",
+      "research_topics": [
+        "Double-diffusive instability (related to a Princeton computer experiment on cellular motions).",
+        "Equatorial undercurrent (unpublished work)."
+      ]
+    },
+    "return_to_cambridge_academic_career": {
+      "initial_appointment": "Assistant Director of Research, Department of Applied Mathematics and Theoretical Physics (DAMTP), October 1969 (following MIT postdoc).",
+      "later_appointment": "Lectureship (tenure-track position).",
+      "fellowship": "St John's Research Fellowship (won based on PhD thesis work)."
+    }
+  },
+  "major_research_themes_and_contributions": {
+    "musical_acoustics": {
+      "collaboration": "With PhD student Jim Woodhouse (now Professor of Engineering).",
+      "topics": "Violin acoustics, bowed string mechanics (finite width of bow, 'grit', two-hair model), wood properties (anisotropic), wolf notes, stick-slip mechanism, hysteresis ('flattening effect').",
+      "context": "Influenced by Carleen Hutchins and the Catgut Acoustical Society."
+    },
+    "wave_mean_flow_interaction_and_glm_theory": {
+      "development": "Followed Francis Bretherton's lead; developed Generalised Lagrangian-Mean (GLM) theory with student David Andrews.",
+      "core_concept": "Hybrid Eulerian-Lagrangian description, importance of Kelvin's circulation theorem, defining wave breaking via irreversible deformation of material contours.",
+      "eureka_moment": "An idea for the 'transformed Eulerian mean' occurred at a sidewalk café in Nice.",
+      "applications": [
+        "Water waves (mean surface height changes, radar altimetry, *On the Divergence Effect* paper).",
+        "Mountain lee waves (upstream influence, correcting Brooke Benjamin, JFM 1972 paper).",
+        "Quasi-Biennial Oscillation (QBO) in the equatorial stratosphere (refining existing theory using GLM)."
+      ]
+    },
+    "stratospheric_dynamics_and_ozone_science": {
+      "initial_interest": "Stratospheric Rossby waves (with student Adrian Simmons, correcting Dickinson's work), shear instability (correcting Charney & Stern 1962, QJRMS 1972 paper).",
+      "sudden_stratospheric_warmings": "Inspired by Taroh Matsuno's simulations; investigating how linear theory could work so well for large-amplitude Rossby wave phenomena.",
+      "potential_vorticity_pv": {
+        "significance": "Key to understanding large-scale atmospheric dynamics, including Rossby waves and their breaking.",
+        "visualization": "PV maps provided a 'blurred view of reality' (McIntyre & Palmer, Nature 1983,4,5), later refined. Led to influential review (Hoskins, McIntyre & Robertson, 1985)."
+      },
+      "brewer_dobson_circulation": "Explained its driving mechanism via breaking Rossby waves and gyroscopic pumping, crucial for understanding trace constituent transport (e.g., ozone, water vapour).",
+      "ozone_hole": {
+        "context": "Discovery by Farman, Shanklin, Gardiner (1985). Understanding involved interdisciplinary effort (fluid dynamics, chemistry, radiation). Heterogeneous chemistry on PSCs.",
+        "role": "Consultant theoretician on NASA DC-8 for Arctic airborne expedition (second expedition, following the first to Antarctica). Focused on fluid dynamics of vortex isolation (eddy-transport barrier)."
+      }
+    },
+    "solar_physics_helioseismology": {
+      "initial_exposure": "Through friends Edward Spiegel and Douglas Gough.",
+      "problem": "Sun's differential rotation: radiative interior rotates solidly, convection zone differentially, sharp shear layer (tachocline).",
+      "contribution": "Argued against Spiegel & Zahn's (1992) horizontal turbulence theory. Proposed internal global-scale magnetic field as necessary for solid interior rotation (McIntyre & Gough, Nature 1998). Theory of polar downwelling confining the field (with Toby Wood, JFM 2011)."
+    },
+    "jupiter_s_jets": {
+      "observation": "Jupiter's jets are extremely straight, unlike Earth's meandering jets.",
+      "hypothesis": "Different mechanism than terrestrial PV mixing; likely related to thunderstorms injected from below. Ongoing work with student Stephen Thomson."
+    },
+    "lucidity_in_scientific_communication": {
+      "origins": "Proofreading George Batchelor's textbook, noticing judicious use of repetition, interest in perception psychology (Richard Gregory's *The Intelligent Eye*), correcting student drafts (e.g., Rupert Ford).",
+      "principles": "Making complex ideas clear and accessible, using appropriate repetition, understanding perception, importance of multiple perspectives (equations, pictures, feel), civilised proof structure (Littlewood).",
+      "outputs": "Three major papers, handout notes for lectures (e.g., group theory), website content."
+    },
+    "numerical_weather_forecasting_nwp": {
+      "vision": "Advocated for using PV visualization to aid human forecasters ('A Dream/Vision of the Future' essays), combining human intuition with computer models.",
+      "context": "Acknowledges automation but sees potential for human skill in spotting forecast errors and improving models via PV insights (e.g., Philippe Arbogast's PV inverter)."
+    }
+  },
+  "other_interests_and_reflections": {
+    "music": {
+      "instrument": "Violin (started age 10), piano.",
+      "experience": "Intense practice, NZ National Youth Orchestra (leader), Cambridge musical life (Music Club, CUMS, *Pierrot Lunaire* on viola), professional piano trio with wife Ruth (post-PhD), David Crighton memorial concert (2001), amateur chamber music.",
+      "philosophy": "Music as spiritual solace, deep connection between maths and music (unconscious power of abstraction, organic change, invariant elements), importance of 'play' and 'feeling' in music."
+    },
+    "gliding_and_flight": {
+      "early_interest": "Childhood flying dreams, model aeroplanes, book *Flight without Power* (Philip Wills).",
+      "simulation": "Obsessive practice with 'Aviator' program on BBC Microcomputer.",
+      "practical_experience": "Trial flight with Murry Salby (USA). Joined Cambridge Gliding Club, soloed in 1990. Active for ~10 years. Achieved Bronze C, partial Silver C.",
+      "connection_to_science": "Thrill of feeling atmospheric motion, albeit smaller scale than professional work."
+    },
+    "home_and_family_life": {
+      "marriage": "To Ruth Hecht, pianist; 3 stepchildren (Jonathan, Peter, Miriam).",
+      "parenting_style": "Responsive to children's interests, encouraging scientific exploration (model making, Meccano).",
+      "work_life_balance": "A struggle, especially during intense musical periods. Concertising eventually became unsustainable alongside scientific career.",
+      "home_projects": "Keen on DIY, renewable energy (solar photovoltaic, advanced solar-thermal system), involved learning complex manuals."
+    },
+    "views_on_science_communication_and_academia": {
+      "scientific_ethic": "Importance of honesty, cross-checking, lucidity, making things 'very obvious and trivial' (Adams-Airy affair lesson).",
+      "research_style": "Often curiosity-driven, scientific opportunism, preference for solitude and deep thought, but values collaboration.",
+      "teaching_style": "Developed from initial struggles to using detailed handout notes with overhead projector, focusing on highlighting key concepts. Importance of making material accessible.",
+      "frs_election_1990": "Pleasing honour, brings responsibilities (refereeing), helped David Crighton get elected."
+    },
+    "climate_change_perspectives": {
+      "engagement": "Watched closely, talks to IPCC colleagues, never directly funded for climate science.",
+      "stance": "Clear that honest climate science exists and is reported by IPCC. Resents disinformers.",
+      "key_argument": "Emphasizes palaeoclimate record (800,000yr ice cores showing CO2 180-280ppm correlating with large climate shifts). CO2 as crucial non-condensing greenhouse gas. Earth system as a powerful, slow-responding amplifier. Current CO2 levels already exceed natural range.",
+      "solutions": "Adaptation likely more prominent than mitigation. Carbon capture possible. Business entrepreneurship for low-carbon economy (Stern, Branson). Politics too short-term."
+    },
+    "personal_philosophy_and_politics": {
+      "religious_views": "Reverent agnostic, admires Quaker movement but it didn't provide enough spiritual solace. Disagrees with fundamentalism of any kind (including Dawkins' certainty of no God). Sees value in hope and belief for human societies.",
+      "political_views": "Generally left-leaning. Critical of neocon mentality and sensationalist journalism. Values moderation and trust-building between cultures. Believes democracy is 'worst political system, apart from all the rest'."
+    },
+    "website_and_digital_presence": {
+      "origins": "Early internet adoption for sharing prepublication papers.",
+      "content": "Scientific papers, preprints, 'rants' (e.g., on carbon dioxide, lucidity principles page with 'walking lights' animation).",
+      "philosophy": "A place for 'bees in one's bonnet to buzz' (quoting Hermann Bondi). Aims to communicate discoveries.",
+      "challenges": "Haphazard layout, copyright issues for formal archiving (DSpace). Hopes for mirroring by interested parties to ensure posterity."
+    }
+  },
+  "key_figures_mentioned": [
+    "Archibald Keverall McIntyre (father)",
+    "Anne McIntyre (mother, née Williams)",
+    "Sir Edgeworth David (great-grandfather)",
+    "Cara David (great-grandmother)",
+    "Molly (Mary Edgeworth David, great-aunt)",
+    "Ruth McIntyre (née Hecht, wife)",
+    "Jim Woodhouse (PhD student, collaborator in acoustics)",
+    "David Andrews (PhD student, collaborator on GLM theory)",
+    "Francis Bretherton (PhD supervisor)",
+    "George Batchelor (HOD Cambridge, author)",
+    "Jule Charney (MIT, pioneering meteorologist)",
+    "Norman Phillips (MIT, pioneering meteorologist)",
+    "Fred Hoyle (astrophysicist, DAMTP)",
+    "Hermann Bondi (astrophysicist, DAMTP)",
+    "Joseph Pedlosky (meteorologist)",
+    "Brooke Benjamin (fluid dynamicist)",
+    "Adrian Simmons (first PhD student)",
+    "Bob Dickinson (meteorologist)",
+    "Taroh Matsuno (meteorologist)",
+    "Tim Palmer (Met Office, collaborator on PV maps)",
+    "Brian Hoskins (Reading, collaborator on PV review)",
+    "Joseph Farman (discoverer of ozone hole)",
+    "Jim Anderson (Harvard, chlorine monoxide measurements)",
+    "John Houghton (Oxford, IPCC, satellite instrumentation)",
+    "Nick Shackleton (palaeoclimatologist, musician)",
+    "David Crighton (HOD Cambridge, mathematician, musician)",
+    "Edward Spiegel (solar physicist)",
+    "Douglas Gough (helioseismologist)",
+    "Toby Wood (research student, solar physics)",
+    "Stephen Thomson (research student, Jupiter's jets)",
+    "Richard Gregory (perception psychologist)",
+    "J.E. Littlewood (mathematician)",
+    "Rupert Ford (brilliant PhD student, d. young)"
+  ],
+  "meta_interview_details": {
+    "interview_experience": "Found it fun, a good way to jog memories, valuable exercise in explaining complex work in lay terms. Honoured by the British Library's interest."
+  }
+}

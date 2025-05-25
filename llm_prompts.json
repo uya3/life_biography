@@ -1,0 +1,26 @@
+[
+    {
+        "name": "outlinee",
+        "text": "Generate life story category and subcategory outlines as JSON, from this person's interview",
+        "level": "outline",
+        "goal": "outline"
+    },
+    {
+        "name": "movies",
+        "text": "Based on this person's interests, please recommend several movies",
+        "level": "short",
+        "goal": "movie"
+    },
+    {
+        "name": "activity",
+        "text": "based on this person's life story, please recommend interesting activities and hobbies",
+        "level": "short",
+        "goal": "hobby"
+    },
+    {
+        "name": "1pager",
+        "text": "Please summarize this person's life story into a one page summary",
+        "level": "medium",
+        "goal": "1pager"
+    }
+]
