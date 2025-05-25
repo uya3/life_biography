@@ -19,7 +19,7 @@ def generate_summary(uuid, bio, prompt):
     response = client.models.generate_content(
         model="gemini-2.5-flash",
         config=config,
-        contents=text,
+        contents=f'{prompt}: \n {bio}',
     )
     return response.text
 
