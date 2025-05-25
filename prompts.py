@@ -1,7 +1,7 @@
-import sqlite3
-from typing import List, Optional, TypedDict
+import json
+from typing import List, Dict, Optional, TypedDict
 
-DB_FILE = "prompts.db"
+PROMPT_FILE = "llm_prompts.json"
 
 class Prompt(TypedDict):
     name: str
@@ -12,68 +12,29 @@ class Prompt(TypedDict):
 # Initialize an in-memory list to store prompts
 prompts_db: List[Prompt] = []
 
-def init_db():
-    """Initializes the SQLite database and creates the table if needed."""
-    with sqlite3.connect(DB_FILE) as conn:
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS prompts (
-                name TEXT PRIMARY KEY,
-                text TEXT NOT NULL,
-                level TEXT NOT NULL,
-                goal TEXT NOT NULL
-            )
-            """
-        )
-        conn.commit()
-
-
 def save_prompts():
-    """Persists the in-memory prompts to the SQLite database."""
+    """Saves the current list of prompts to a JSON file."""
     try:
-        with sqlite3.connect(DB_FILE) as conn:
-            conn.execute("DELETE FROM prompts")
-            conn.executemany(
-                "INSERT INTO prompts (name, text, level, goal) VALUES (?, ?, ?, ?)",
-                [
-                    (p["name"], p["text"], p["level"], p["goal"]) for p in prompts_db
-                ],
-            )
-            conn.commit()
-        print(f"💾 Prompts saved to {DB_FILE}")
-    except sqlite3.Error as e:
+        with open(PROMPT_FILE, "w") as f:
+            json.dump(prompts_db, f, indent=4)
+        print(f"💾 Prompts saved to {PROMPT_FILE}")
+    except IOError as e:
         print(f"Error saving prompts: {e}")
 
 def load_prompts():
-    """Loads prompts from the SQLite database into memory."""
+    """Loads prompts from a JSON file into memory."""
     global prompts_db
     try:
-        with sqlite3.connect(DB_FILE) as conn:
-            conn.execute(
-                """
-                CREATE TABLE IF NOT EXISTS prompts (
-                    name TEXT PRIMARY KEY,
-                    text TEXT NOT NULL,
-                    level TEXT NOT NULL,
-                    goal TEXT NOT NULL
-                )
-                """
-            )
-            cursor = conn.execute(
-                "SELECT name, text, level, goal FROM prompts"
-            )
-            rows = cursor.fetchall()
-            prompts_db = [
-                {
-                    "name": row[0],
-                    "text": row[1],
-                    "level": row[2],
-                    "goal": row[3],
-                }
-                for row in rows
-            ]
-        print(f"📚 Prompts loaded from {DB_FILE}")
-    except sqlite3.Error as e:
+        with open(PROMPT_FILE, "r") as f:
+            prompts_db = json.load(f)
+        print(f"📚 Prompts loaded from {PROMPT_FILE}")
+    except FileNotFoundError:
+        print(f"No existing prompt file found at {PROMPT_FILE}. Starting with an empty database.")
+        prompts_db = []
+    except json.JSONDecodeError:
+        print(f"Error decoding JSON from {PROMPT_FILE}. Starting with an empty database.")
+        prompts_db = []
+    except IOError as e:
         print(f"Error loading prompts: {e}")
         prompts_db = []
 
@@ -95,17 +56,9 @@ def add_prompt():
         return
 
     new_prompt: Prompt = {"name": name, "text": text, "level": level, "goal": goal}
-    try:
-        with sqlite3.connect(DB_FILE) as conn:
-            conn.execute(
-                "INSERT INTO prompts (name, text, level, goal) VALUES (?, ?, ?, ?)",
-                (name, text, level, goal),
-            )
-            conn.commit()
-        prompts_db.append(new_prompt)
-        print(f"✅ Prompt '{name}' added successfully!")
-    except sqlite3.IntegrityError:
-        print(f"⚠️ Error: A prompt with the name '{name}' already exists.")
+    prompts_db.append(new_prompt)
+    save_prompts()
+    print(f"✅ Prompt '{name}' added successfully!")
 
 def view_prompts(filtered_prompts: Optional[List[Prompt]] = None):
     """Displays prompts. If filtered_prompts is provided, displays those, otherwise all."""
@@ -172,17 +125,9 @@ def delete_prompt():
     new_prompts_db = [p for p in prompts_db if p['name'] != name_to_delete]
 
     if len(new_prompts_db) < initial_len:
-        try:
-            with sqlite3.connect(DB_FILE) as conn:
-                conn.execute(
-                    "DELETE FROM prompts WHERE name = ?",
-                    (name_to_delete,)
-                )
-                conn.commit()
-            prompts_db[:] = new_prompts_db  # Update the global list
-            print(f"🗑️ Prompt '{name_to_delete}' deleted successfully.")
-        except sqlite3.Error as e:
-            print(f"Error deleting prompt: {e}")
+        prompts_db[:] = new_prompts_db # Update the global list
+        save_prompts()
+        print(f"🗑️ Prompt '{name_to_delete}' deleted successfully.")
     else:
         print(f"⚠️ Prompt with name '{name_to_delete}' not found.")
 
@@ -212,8 +157,7 @@ def get_prompt_text():
 
 def main_menu():
     """Displays the main menu and handles user input."""
-    init_db()
-    load_prompts()  # Load prompts at startup
+    load_prompts() # Load prompts at startup
 
     while True:
         print("\n🤖 LLM Prompt Manager 🤖")
