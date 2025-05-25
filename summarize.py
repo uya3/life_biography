@@ -1,3 +1,4 @@
+import json
 import os
 from google import genai
 from google.genai import types
@@ -7,13 +8,13 @@ import prompts
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
-ACTIVE_PROMPTS = ['activity', 'short']
+ACTIVE_PROMPTS = ['combined', 'short']
 
-def generate_summaries(uuid, bio):
+def generate_summaries(uuid, bio, actives=ACTIVE_PROMPTS):
     prompts.load_prompts()
     responses = {}
     for prompt in prompts.prompts_db:
-        if prompt['name'] not in ACTIVE_PROMPTS:
+        if prompt['name'] not in actives:
             continue
         responses[prompt['name']] = generate_summary(uuid, bio, prompt['text'])
     return responses
@@ -29,4 +30,5 @@ def generate_summary(uuid, bio, prompt):
         config=config,
         contents=contents,
     )
+
     return response.text

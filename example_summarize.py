@@ -1,3 +1,4 @@
+import json
 import summarize
 
 test_bio = """* B. Childhood Memories and Early Interests
@@ -14,4 +15,5 @@ test_bio = """* B. Childhood Memories and Early Interests
 """
 
 resp = summarize.generate_summaries(1,test_bio)
-print (resp)
+# pretty print the response.text json
+print(json.dumps(resp, indent=2))

@@ -6,16 +6,10 @@
         "goal": "outline"
     },
     {
-        "name": "movies",
-        "text": "Based on this person's interests, please recommend several movies",
+        "name": "combined",
+        "text": "Based on this person's interests, please recommend several movies, activities and hobbies, as JSON",
         "level": "short",
         "goal": "movie"
-    },
-    {
-        "name": "activity",
-        "text": "based on this person's life story, please recommend interesting activities and hobbies, as JSON",
-        "level": "short",
-        "goal": "hobby"
     },
     {
         "name": "short",
